@@ -1,0 +1,429 @@
+.\" NÃO MODIFIQUE ESTE ARQUIVO! Foi gerado por help2man.
+.TH NEOFETCH "16" "Maio 2023" "Neofetch 7.1.0" "Rotinas da pessoa"
+.SH NAME
+Neofetch \- Um script de informações do sistema rápido e
+altamente personalizável.
+.SH SYNOPSIS
+.B neofetch
+\fI\,func_name --option "valor" --option "valor"\/\fR
+.SH DESCRIÇÃO
+Neofetch é uma ferramenta de informações do sistema CLI
+escrita em BASH. O Neofetch exibe informações sobre seu
+sistema ao lado de uma imagem, o logotipo do sistema ou
+qualquer página ASCII de sua escolha.
+.PP
+OBSERVAÇÃO: Cada sinalizador de inicialização tem uma
+opção de configuração.
+.SH OPÇÕES
+.SS "INFORMAÇÕES:"
+.TP
+func_name
+Especifique um nome de função (segunda parte de info() de
+config) para exibir rapidamente apenas as informações
+dessa função.
+.IP
+Exemplo: neofetch uptime \fB\-\-uptime_shorthand\fR tiny.
+.IP
+Exemplo: neofetch uptime disk wm memory.
+.IP
+Isso pode ser usado em barras e scripts como:
+.IP
+memory="$(neofetch memory)"; memory="${memory##*: }"
+.IP
+Para várias saídas ao mesmo tempo (cada linha de informação
+em uma matriz):
+.IP
+IFS=$'\en' read \fB\-d\fR "" \fB\-ra\fR info < <(neofetch memory uptime wm)
+.IP
+info=("${info[@]##*: }")
+.TP
+\fB\-\-disable\fR infoname
+Permite desativar a exibição de uma linha de informações
+na saída. 'infoname' é o nome da função \&'print_info()'
+dentro do arquivo de configuração.
+Por Exemplo: 'info "Memory" memory' é equivalente á '\-\-disable memory'.
+.IP
+OBSERVAÇÃO: Você pode fornecer vários argumentos.
+por exemplo. 'neofetch \fB\-\-disable\fR cpu gpu'.
+.TP
+\fB\-\-title_fqdn\fR on/off
+Ocultar/mostrar nome de domínio totalmente qualificado
+no título.
+.TP
+\fB\-\-package_managers\fR on/off
+Ocultar/Mostrar nomes do Gerenciador de Plug. (on, tiny, off).
+.TP
+\fB\-\-os_arch\fR on/off
+Ocultar/mostrar arquitetura do sistema.
+.TP
+\fB\-\-speed_type\fR type
+Altere o tipo de velocidade da CPU a ser exibida.
+Valores possíveis: current, min, max, bios,
+scaling_current, scaling_min, scaling_max.
+.IP
+OBSERVAÇÃO: Isso suporta apenas Unix com cpufreq.
+.TP
+\fB\-\-speed_shorthand\fR on/off
+Se deve ou não mostrar decimais na velocidade da CPU.
+.TP
+OBSERVAÇÃO: Este sinalizador não é suportado em sistemas
+com velocidade de CPU menor que 1GHz.
+.TP
+\fB\-\-cpu_brand\fR on/off
+Ativar/desativar a marca da CPU na saída.
+.TP
+\fB\-\-cpu_cores\fR type
+Se deve ou não exibir o número de núcleos da CPU.
+Valores possíveis: logical, physical, off.
+.IP
+OBSERVAÇÃO: 'physical' não funciona em alguns unix.
+.TP
+\fB\-\-cpu_speed\fR on/off
+Ocultar/Mostrar velocidade da CPU.
+.TP
+\fB\-\-cpu_temp\fR C/F/off
+Ocultar/Mostrar temperatura da CPU.
+.IP
+OBSERVAÇÃO: Isso só funciona em Unix.
+.TP
+OBSERVAÇÃO: Para alguns sistemas unix, você precisa habilitar
+o módulo coretemp do kernel. Isso suporta apenas processadores
+Intel mais recentes.
+.TP
+\fB\-\-distro_shorthand\fR on/off
+Encurtar a saída da distro (on, tiny, off).
+.IP
+OBSERVAÇÃO: Esta opção não funcionará em sistemas diferente
+de unix.
+.TP
+\fB\-\-kernel_shorthand\fR on/off
+Encurtar a saída do kernel.
+.IP
+OBSERVAÇÃO: Esta opção não funcionará em alguns sistemas unix.
+.TP
+\fB\-\-uptime_shorthand\fR on/off
+Reduza a produção de tempo de atividade (on, tiny, off).
+.TP
+\fB\-\-refresh_rate\fR on/off
+Se a taxa de atualização de cada monitor deve ser
+exibida. Não suportado em alguns sistemas unix.
+.TP
+\fB\-\-gpu_brand\fR on/off
+Ativar/desativar a marca da GPU na saída. (AMD/NVIDIA/Intel).
+.TP
+\fB\-\-gpu_type\fR type
+Qual GPU exibir. (all, dedicated, integrated)
+.IP
+OBSERVAÇÃO: Isso suporta apenas sistemas Unix.
+.TP
+\fB\-\-de_version\fR on/off
+Mostrar/ocultar versão do ambiente de trabalho.
+.TP
+\fB\-\-gtk_shorthand\fR on/off
+Encurtar a saída do tema/ícones gtk.
+.TP
+\fB\-\-gtk2\fR on/off
+Ativar/desativar saída de tema/fonte/ícones gtk2.
+.TP
+\fB\-\-gtk3\fR on/off
+Ativar/desativar saída de tema/fonte/ícones gtk3.
+.TP
+\fB\-\-shell_path\fR on/off
+Ativar/desativar a exibição do caminho $SHELL.
+.TP
+\fB\-\-shell_version\fR on/off
+Ativar/desativar a exibição da versão $SHELL.
+.TP
+\fB\-\-disk_show\fR value
+Quais discos exibir.
+Valores possíveis: '/', '/dev/sdXX', '/path/to/mount point'
+.IP
+OBSERVAÇÃO: Vários valores podem ser fornecidos. (\fB\-\-disk_show\fR '/' '/dev/sdc1').
+.TP
+\fB\-\-disk_subtitle\fR type
+Quais informações anexar ao subtítulo do disco.
+Leva: name, mount, dir, none.
+.IP
+\&'name' mostra o nome do disco (sda1, sda2, etc).
+.IP
+\&'mount' mostra o ponto de montagem do disco (/, \fI\,/mnt/Local\/\fP Disk, etc).
+.IP
+\&'dir' mostra o nome base do caminho dos discos. (/, Local Disk, etc).
+.IP
+\&'none' mostra apenas 'Disk' ou o título configurado.
+.TP
+\fB\-\-disk_percent\fR on/off
+Ocultar/Mostrar porcentagem do disco.
+.TP
+\fB\-\-ip_host\fR url
+URL para consultar o IP público.
+.TP
+\fB\-\-ip_timeout\fR int
+Tempo limite do IP público (em segundos).
+.TP
+\fB\-\-song_format\fR format
+Imprima os dados da música em um formato específico (consulte
+a página de configuração).
+.TP
+\fB\-\-song_shorthand\fR on/off
+Imprima o Artista/Álbum/Título em linhas separadas.
+.TP
+\fB\-\-memory_percent\fR on/off
+Exibir porcentagem de cubo.
+.TP
+\fB\-\-music_player\fR player\-name
+Especifique manualmente um tocador para usar.
+Os valores disponíveis estão listados no arquivo de
+configuração.
+.SS "TEXT FORMATTING:"
+.TP
+\fB\-\-colors\fR x x x x x x
+Altera as cores do texto nesta ordem:
+title, @, underline, subtitle, colon, info.
+.TP
+\fB\-\-underline\fR on/off
+Ativar/desativar o sublinhado.
+.TP
+\fB\-\-underline_char\fR char
+Grafema a ser usado ao sublinhar o título.
+.TP
+\fB\-\-bold\fR on/off
+Ativar/desativar texto em negrito.
+.TP
+\fB\-\-separator\fR string
+Altera especificação de separador comum ':' para a
+sequência especificada.
+.SS "COLOR BLOCKS:"
+.TP
+\fB\-\-color_blocks\fR on/off
+Habilitar/Desabilitar os blocos de cores.
+.TP
+\fB\-\-col_offset\fR auto/num
+Left\-padding de blocos de cores.
+.TP
+\fB\-\-block_width\fR num
+Largura dos blocos de cores nos espaços em branco.
+.TP
+\fB\-\-block_height\fR num
+Altura dos blocos de cores em linhas.
+.TP
+\fB\-\-block_range\fR num num
+Gama de cores para imprimir como blocos.
+.SS "BARS:"
+.TP
+\fB\-\-bar_char\fR 'elapsed char' 'total char'
+Grafemas a serem usados ao desenhar barras.
+.TP
+\fB\-\-bar_border\fR on/off
+Se deve ou não cercar a barra com '[]'.
+.TP
+\fB\-\-bar_length\fR num
+Comprimento em espaços para fazer as barras.
+.TP
+\fB\-\-bar_colors\fR num num
+Cores para fazer a barra.
+Definir nesta ordem: elapsed, total.
+.TP
+\fB\-\-cpu_display\fR mode
+Modo de barra.
+Valores possíveis: bar, infobar, barinfo, off.
+.TP
+\fB\-\-memory_display\fR mode
+Modo de barra.
+Valores possíveis: bar, infobar, barinfo, off.
+.TP
+\fB\-\-battery_display\fR mode
+Modo de barra.
+Valores possíveis: bar, infobar, barinfo, off.
+.TP
+\fB\-\-disk_display\fR mode
+Modo de barra.
+Valores possíveis: bar, infobar, barinfo, off.
+.SS "BACKEND DE IMAGEM:"
+.TP
+\fB\-\-backend\fR backend
+Qual back-end de imagem usar.
+Valores possíveis: 'ascii', 'caca', 'chafa', 'jp2a', 'iterm2',
+\&'off', 'sixel', 'tycat', 'w3m', 'kitty'.
+.TP
+\fB\-\-source\fR source
+Qual imagem ou arquivo ASCII usar.
+Valores possíveis: 'auto', 'ascii', 'wallpaper', '/path/to/img',
+\&'/path/to/ascii', '/path/to/dir/', 'command output' [ascii].
+.TP
+\fB\-\-ascii\fR source
+Atalho para usar o back-end 'ascii'.
+.IP
+NEW: neofetch \fB\-\-ascii\fR "$(fortune | cowsay \fB\-W\fR 30)"
+.TP
+\fB\-\-caca\fR source
+Atalho para usar o back-end 'caca'.
+.TP
+\fB\-\-chafa\fR source
+Atalho para usar o back-end 'chafa'.
+.TP
+\fB\-\-iterm2\fR source
+Atalho para usar o back-end 'iterm2'.
+.TP
+\fB\-\-jp2a\fR source
+Atalho para usar o back-end 'jp2a'.
+.TP
+\fB\-\-kitty\fR source
+Atalho para usar o back-end 'kitty'.
+.TP
+\fB\-\-pixterm\fR source
+Atalho para usar o back-end 'pixterm'.
+.TP
+\fB\-\-sixel\fR source
+Atalho para usar o back-end 'sixel'.
+.TP
+\fB\-\-termpix\fR source
+Atalho para usar o back-end 'termpix'.
+.TP
+\fB\-\-tycat\fR source
+Atalho para usar o back-end 'tycat'.
+.TP
+\fB\-\-w3m\fR source
+Atalho para usar o back-end 'w3m'.
+.TP
+\fB\-\-off\fR
+Atalho para usar o back-end 'off' (Desativar arte ascii).
+.IP
+OBSERVAÇÃO: 'source; pode ser qualquer um dos seguintes:
+'auto', 'ascii', 'wallpaper', '/path/to/img',
+\&'/path/to/ascii', '/path/to/dir/'.
+.SS "ASCII:"
+.TP
+\fB\-\-ascii_colors\fR x x x x x x
+Cores para imprimir a arte ascii.
+.TP
+\fB\-\-ascii_distro\fR distro
+Qual arte ascii da Distro imprimir.
+.TP
+OBSERVAÇÃO: AIX, Alpine, AlterLinux, Anarchy, Android, Antergos, antiX,
+"AOSC OS", "AOSC OS/Retro", Apricity, ArcoLinux, ArchBox, ARCHlabs,
+ArchStrike, XFerience, ArchMerge, Arch, Artix, Arya, Bedrock, Bitrig,
+BlackArch, BLAG, BlankOn, BlueLight, bonsai, BSD,
+BunsenLabs, Calculate, Carbs, CentOS, Chakra, ChaletOS,
+Chapeau, Chrom, Cleanjaro, ClearOS, Clear_Linux, Clover,
+Condres, Container_Linux, CRUX, Cucumber, Debian, Deepin,
+DesaOS, Devuan, DracOS, DragonFly, Drauger, Elementary,
+EndeavourOS, Endless, EuroLinux, Exherbo, Fedora, Feren, FreeBSD,
+FreeMiNT, Frugalware, Funtoo, GalliumOS, Gentoo, Pentoo,
+gNewSense, GNOME, GNU, GoboLinux, Grombyang, Guix, Haiku, Huayra,
+Hyperbola, janus, Kali, KaOS, KDE_neon, Kibojoe, Kogaion,
+Korora, KSLinux, Kubuntu, LEDE, LFS, Linux_Lite,
+LMDE, Lubuntu, Lunar, macos, Mageia, MagpieOS, Mandriva,
+Manjaro, Maui, Mer, Minix, LinuxMint, MX_Linux, Namib,
+Neptune, NetBSD, Netrunner, Nitrux, NixOS, Nurunner,
+NuTyX, OBRevenge, OpenBSD, OpenIndiana, openmamba, OpenMandriva,
+OpenStage, OpenWrt, osmc, Oracle, OS Elbrus, PacBSD, Parabola, Pardus,
+Parrot, Parsix, TrueOS, PCLinuxOS, Peppermint, popos, Porteus,
+PostMarketOS, Proxmox, Puppy, PureOS, Qubes, Radix, Raspbian,
+Reborn_OS, Redstar, Redcore, Redhat, Refracted_Devuan, Regata,
+Rosa, sabotage, Sabayon, Sailfish, SalentOS, Scientific, Septor,
+SereneLinux, SharkLinux, Siduction, Slackware, SliTaz, SmartOS,
+Solus, Source_Mage, Sparky, Star, SteamOS, SunOS, openSUSE_Leap,
+openSUSE_Tumbleweed, openSUSE, SwagArch, Tails, Trisquel,
+Ubuntu\-Budgie, Ubuntu\-GNOME, Ubuntu\-MATE, Ubuntu\-Studio, Ubuntu,
+Venom, Void, Obarun, windows10, Windows7, Xubuntu, Zorin, e IRIX
+tem logotipos ascii.
+.IP
+OBSERVAÇÃO: Arch, Ubuntu, Redhat, e Dragonfly têm variantes de logotipo 'antigo'.
+.IP
+OBSERVAÇÃO: Use '{distro name}_old' para usar os logotipos antigos.
+.IP
+OBSERVAÇÃO: Ubuntu tem variantes.
+.TP
+OBSERVAÇÃO: Mude isso para Lubuntu, Kubuntu, Xubuntu, Ubuntu\-GNOME,
+Ubuntu\-Studio, Ubuntu\-Mate ou Ubuntu\-Budgie para usar.
+.TP
+OBSERVAÇÃO: Arcolinux, Dragonfly, Fedora, Alpine, Arch, Ubuntu,
+CRUX, Debian, Gentoo, FreeBSD, Mac, NixOS, OpenBSD, android,
+Antrix, CentOS, Cleanjaro, ElementaryOS, GUIX, Hyperbola,
+Manjaro, MXLinux, NetBSD, Parabola, POP_OS, PureOS,
+Slackware, SunOS, LinuxLite, OpenSUSE, Raspbian,
+postmarketOS, e Void tem uma variante menor do logotipo.
+.IP
+OBSERVAÇÃO: Use '{distro name}_small' para usar as pequenas variantes.
+.TP
+\fB\-\-ascii_bold\fR on/off
+Se deve ou não colocar em negrito o logotipo ASCII.
+.TP
+\fB\-L\fR, \fB\-\-logo\fR
+Oculte o texto informativo e mostre apenas o logotipo ASCII.
+.SS "IMAGE:"
+.TP
+\fB\-\-loop\fR
+Redesenhe a imagem constantemente até que Ctrl+C seja usado.
+Isso melhora falhas em alguns emuladores de console ao usar
+o modo de imagem.
+.TP
+\fB\-\-size\fR 00px | \fB\-\-size\fR 00%
+Como dimensionar a imagem.
+Valores possíveis: auto, 00px, 00%, none.
+.TP
+\fB\-\-crop_mode\fR mode
+Qual modo de remoção usar.
+pega os valores: normal, fit, fill.
+.TP
+\fB\-\-crop_offset\fR value
+Altere o deslocamento de remoção para o modo normal.
+Valores possíveis: northwest, north, northeast,
+west, center, east, southwest, south, southeast.
+.TP
+\fB\-\-xoffset\fR px
+Quão perto a imagem estará da borda esquerda da
+janela. Isso só funciona com w3m.
+.TP
+\fB\-\-yoffset\fR px
+Quão perto a imagem estará da borda mais alta da
+janela. Isso só funciona com w3m.
+.TP
+\fB\-\-bg_color\fR color
+Cor de fundo a ser exibida atrás da imagem transparente.
+Isso só funciona com w3m.
+.TP
+\fB\-\-gap\fR num
+Espaço entre a imagem e o texto.
+.TP
+OBSERVAÇÃO: \fB\-\-gap\fR pode assumir um valor não muito
+positivo que moverá o texto para mais perto do lado esquerdo.
+.TP
+\fB\-\-clean\fR
+Exclua páginas em cubos e miniaturas.
+.SS "OUTRO:"
+.TP
+\fB\-\-config\fR \fI\,/path/to/config\/\fP
+Especifique um caminho para uma página de configuração
+personalizada.
+.TP
+\fB\-\-config\fR none
+Inicie o script sem uma página de configuração.
+.TP
+\fB\-\-no_config\fR
+Não crie a página de configuração da pessoa.
+.TP
+\fB\-\-print_config\fR
+Imprima a página de configuração comum para stdout.
+.TP
+\fB\-\-stdout\fR
+Desligue todas as cores e desative qualquer back-end ASCII/imagem.
+.TP
+\fB\-\-help\fR
+Imprima este texto e saia.
+.TP
+\fB\-\-version\fR
+Mostrar versão neofetch.
+.TP
+\fB\-v\fR
+Exibir mensagens de falha.
+.TP
+\fB\-vv\fR
+Exibir um log detalhado para relatórios de falhas.
+.SS "DESENVOLVEDOR:"
+.TP
+\fB\-\-gen\-man\fR
+Gere uma página de manual para Neofetch em seu PWD. (Requer GNU help2man).
+.SH "RELATANDO FALHAS"
+Relatar falhas para http://localhost/neofetch.
